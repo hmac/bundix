@@ -121,7 +121,9 @@ class Bundix
 
         spec_rev == cached_rev
       when Bundler::Source::Rubygems
-        next unless (v['targets'] + [v['source']]).compact.first['type'] == 'gem'
+        sources = (v['targets'] + [v['source']]).compact
+        next if sources.empty?
+        next unless sources.first['type'] == 'gem'
 
         # if changes are made to platform targets, recalculate
         old_targets = v['targets'].map { |i| i['target'] }
